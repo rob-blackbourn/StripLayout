@@ -1,23 +1,27 @@
-package net.jetblack.swt;
+StripLayout
+===========
 
-import net.jetblack.swt.layout.Margin;
-import net.jetblack.swt.layout.Size;
-import net.jetblack.swt.layout.StripData;
-import net.jetblack.swt.layout.StripLayout;
+The following layout is difficult to achieve with the standard SWT layout classes.
 
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.layout.RowData;
-import org.eclipse.swt.layout.RowLayout;
-import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.Combo;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Shell;
-import org.eclipse.swt.widgets.Text;
+![Example Layout](StripLayout1.png)
 
-public class App {
+The `StripLayout` class lays out controls in strips which have optional fill characteristics.
+
+The next image annotates the process.
+
+![Explained Layout](StripLayout2.png)
+
+The outer strip (coloured purple) is a vertical strip with three controls. The
+top row fills horizontally. The second (output text) fills both
+horizontally and vertically. The last row fills horizontally.
+
+Within the first row three controls are managed by s strip layout. This is set to
+horizontal. The first control (the send button) and the last control (the combo)
+have no fill, while the center has horizontal fill.
+
+The bottom row has two controls which both fill horizontally.
+
+The following program reproduces the screenshot above.
 
 	public static void main(String[] args) {
 		Display display = new Display();
@@ -60,4 +64,7 @@ public class App {
 		}
 		display.dispose();
 	}
-}
+
+A feature that can be seen in the above code that has not yet been explained is "margin".
+The layout data for each control may have a left, top, right, and bottom margin which will
+be applied when laying out the control.
