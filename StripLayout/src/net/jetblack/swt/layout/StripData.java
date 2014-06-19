@@ -1,33 +1,50 @@
 package net.jetblack.swt.layout;
 
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.graphics.Point;
 
 public final class StripData {
 
-	public boolean fillWidth = false;
-	public boolean fillHeight = false;
-	public int width = SWT.DEFAULT;
-	public int height = SWT.DEFAULT;
+	public final boolean fillWidth;
+	public final boolean fillHeight;
+	public final Size size;
+	public final Margin margin;
 	public boolean exclude = false;
 	
 	public StripData () {
+		this(false, false);
+	}
+
+	public StripData (boolean fillWidth, boolean fillHeight) {
+		this(fillWidth, fillHeight, SWT.DEFAULT, SWT.DEFAULT, 0);
 	}
 
 	public StripData (boolean fillWidth, boolean fillHeight, int width, int height) {
+		this(fillWidth, fillHeight, width, height, 0);
+	}
+
+	public StripData (boolean fillWidth, boolean fillHeight, int width, int height, int margin) {
+		this(fillWidth, fillHeight, width, height, margin, margin, margin, margin);
+	}
+	
+	public StripData (boolean fillWidth, boolean fillHeight, int width, int height, int left, int top, int right, int bottom) {
+		this(fillWidth, fillHeight, new Size(width, height), new Margin(left, top, right, bottom));
+	}
+
+	public StripData (boolean fillWidth, boolean fillHeight, Size size) {
+		this(fillWidth, fillHeight, size, new Margin(0));
+	}
+	
+	public StripData (boolean fillWidth, boolean fillHeight, Margin margin) {
+		this(fillWidth, fillHeight, new Size(SWT.DEFAULT, SWT.DEFAULT), margin);
+	}
+	
+	public StripData (boolean fillWidth, boolean fillHeight, Size size, Margin margin) {
 		this.fillWidth = fillWidth;
 		this.fillHeight = fillHeight;
-		this.width = width;
-		this.height = height;
+		this.size = size;
+		this.margin = margin;
 	}
-
-	public StripData (boolean fillWidth, boolean fillHeight, Point point) {
-		this (fillWidth, fillHeight, point.x, point.y);
-	}
-
-	public StripData(boolean fillWidth, boolean fillHeight) {
-		this(fillWidth, fillHeight, SWT.DEFAULT, SWT.DEFAULT);
-	}
+	
 	private String getName () {
 		String string = getClass().getName();
 		int index = string.lastIndexOf ('.');
@@ -39,8 +56,8 @@ public final class StripData {
 		String string = getName ()+" {";
 		if (fillWidth) string += "fillWidth="+fillWidth+" ";
 		if (fillHeight) string += "fillHeight="+fillHeight+" ";
-		if (width != SWT.DEFAULT) string += "width="+width+" ";
-		if (height != SWT.DEFAULT) string += "height="+height+" ";
+		if (size.width != SWT.DEFAULT) string += "width="+size.width+" ";
+		if (size.height != SWT.DEFAULT) string += "height="+size.height+" ";
 		if (exclude) string += "exclude="+exclude+" ";
 		string = string.trim();
 		string += "}";

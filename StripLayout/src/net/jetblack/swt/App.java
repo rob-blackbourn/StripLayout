@@ -1,5 +1,7 @@
 package net.jetblack.swt;
 
+import net.jetblack.swt.layout.Margin;
+import net.jetblack.swt.layout.Size;
 import net.jetblack.swt.layout.StripData;
 import net.jetblack.swt.layout.StripLayout;
 
@@ -88,20 +90,21 @@ public class App {
 	private static void test4() {
 		Display display = new Display();
 		Shell shell = new Shell(display);
-		shell.setLayout(new StripLayout(false));
+		shell.setLayout(new StripLayout(false, new Margin(3)));
 		shell.setData("shell");
 		
 		Composite sendRow = new Composite(shell, SWT.NO_TRIM);
-		sendRow.setLayout(new StripLayout(true));
+		sendRow.setLayout(new StripLayout(true, new Margin(0, 0, 0, 3)));
 		sendRow.setData("sendRow");
 		sendRow.setLayoutData(new StripData(true, false));
 		
 		Button sendButton = new Button(sendRow, SWT.DEFAULT);
+		sendButton.setLayoutData(new StripData(false, false));
 		sendButton.setText("Send");
 		sendButton.setData("sendButton");
 		
-		Text sendText = new Text(sendRow, SWT.DEFAULT);
-		sendText.setLayoutData(new StripData(true, false));
+		Text sendText = new Text(sendRow, SWT.SINGLE | SWT.BORDER);
+		sendText.setLayoutData(new StripData(true, false, new Margin(3, 0, 3, 0)));
 		sendText.setData("sendText");
 		
 		Combo lineEnding = new Combo(sendRow, SWT.SIMPLE);
@@ -112,6 +115,18 @@ public class App {
 		Text outputText = new Text(shell, SWT.MULTI | SWT.BORDER);
 		outputText.setLayoutData(new StripData(true, true));
 		outputText.setData("outputText");
+		
+		Composite statusRow = new Composite(shell, SWT.NO_TRIM);
+		statusRow.setLayout(new StripLayout(true, new Margin(0, 3, 0, 3)));
+		statusRow.setData("statusRow");
+		statusRow.setLayoutData(new StripData(true, false));
+
+		Text leftStatus = new Text(statusRow, SWT.BORDER);
+		leftStatus.setLayoutData(new StripData(true,false, new Margin(0, 0, 2, 0)));
+		
+		Text rightStatus = new Text(statusRow, SWT.BORDER);
+		rightStatus.setLayoutData(new StripData(true,false, new Margin(1, 0, 0, 0)));
+		
 		
 		shell.open();
 		while (!shell.isDisposed()) {
