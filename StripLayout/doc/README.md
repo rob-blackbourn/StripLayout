@@ -19,7 +19,7 @@ is going to layout its children vertically.
 
 ![Example Layout](StripDiagnostic-2.png)
 
-Now we can make each of the rows.
+Now we can make each of the child rows.
 
 		// Row 1
 		Composite sendRow = new Composite(shell, SWT.NO_TRIM);
@@ -36,10 +36,10 @@ Now we can make each of the rows.
 		statusRow.setLayoutData(new StripData(true, false, new Margin(3, 0, 3, 3)));
 
 The first row is a `Composite` as we want it to contain a number of child controls. 
-It should have a fixed height, but fill in the horizontal direction,
+It should have a fixed height, and fill in the horizontal direction,
 so the `StripData` gets `true` for `fillHorizontal` and `false` for `fillVertical`.
-The first row gets a bottom margin of 3 on the left, top, and bottom, to distance
-itself from the shell..
+The first row gets a margin of 3 on the left, top, and bottom, to create space between
+the shell and itself.
 
 The second row should fill the remaining area, to we set both fills to `true`. It
 has a margin on all sides to distance itself from the shell to the left and right,
@@ -76,15 +76,17 @@ Finally we can create the top row and the last.
 The parent for the controls on row 1 is the `sendRow`. The button should not fill, the
 "send text" should stretch in the horizontal direction,
 and the combo box should not fill. The send text gets some margin on the left and right so
-it doesn't but against its neighbours.
+it doesn't sit against its neighbours.
 
-On row 3 both controls should be fixed in the vertial direction but fill horizontally.
+On row 3 both controls should be fixed in the vertial direction but fill horizontally. The
+left control has some right margin, and the right control has some left margin to keep them
+apart.
 
 This gives us the following.
 
 ![Example Layout](StripDiagnostic-4.png)
 
-The following program reproduces the screenshot above.
+The full program code is given below.
 
 	public static void main(String[] args) {
 		Display display = new Display();
