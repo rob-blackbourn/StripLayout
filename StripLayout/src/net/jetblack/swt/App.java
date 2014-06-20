@@ -1,19 +1,14 @@
 package net.jetblack.swt;
 
 import net.jetblack.swt.layout.Margin;
-import net.jetblack.swt.layout.Size;
 import net.jetblack.swt.layout.StripData;
 import net.jetblack.swt.layout.StripLayout;
 
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.layout.RowData;
-import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
@@ -25,7 +20,7 @@ public class App {
 		shell.setLayout(new StripLayout(false, new Margin(3)));
 		
 		Composite sendRow = new Composite(shell, SWT.NO_TRIM);
-		sendRow.setLayout(new StripLayout(true, new Margin(0, 0, 0, 3)));
+		sendRow.setLayout(new StripLayout(true));
 		sendRow.setLayoutData(new StripData(true, false));
 		
 		Button sendButton = new Button(sendRow, SWT.DEFAULT);
@@ -40,7 +35,7 @@ public class App {
 		lineEnding.select(0);
 		
 		Text outputText = new Text(shell, SWT.MULTI | SWT.BORDER);
-		outputText.setLayoutData(new StripData(true, true));
+		outputText.setLayoutData(new StripData(true, true, new Margin(0, 3, 0, 3)));
 		
 		Composite statusRow = new Composite(shell, SWT.NO_TRIM);
 		statusRow.setLayout(new StripLayout(true, new Margin(0, 3, 0, 3)));
