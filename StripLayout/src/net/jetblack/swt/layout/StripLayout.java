@@ -7,24 +7,54 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Layout;
 
+/**
+ * Instances of this class lays out controls in a horizontal or vertical
+ * strip, with the specified fill and margin.
+ */
 public final class StripLayout extends Layout {
 
+	/** Indicates whether the layout should be horizontal or vertical. */
 	public final boolean isHorizontal;
+	
+	/** The margin. */
 	public final Margin margin;
 
+	/**
+	 * Instantiates a new strip layout.
+	 */
 	public StripLayout() {
 		this(true);
 	}
 	
+	/**
+	 * Instantiates a new strip layout.
+	 *
+	 * @param isHorizontal the is horizontal
+	 */
 	public StripLayout(boolean isHorizontal) {
 		this(isHorizontal, 0, 0, 0, 0);
 	}
 	
+	/**
+	 * Instantiates a new strip layout.
+	 *
+	 * @param isHorizontal specifies whether the layout should be horizontal or vertical
+	 * @param marginLeft the left margin
+	 * @param marginTop the top margin
+	 * @param marginRight the right margin
+	 * @param marginBottom the bottom margin
+	 */
 	public StripLayout(boolean isHorizontal, int marginLeft, int marginTop, int marginRight, int marginBottom)
 	{
 		this(isHorizontal, new Margin(marginLeft, marginTop, marginRight, marginBottom));
 	}
 	
+	/**
+	 * Instantiates a new strip layout.
+	 *
+	 * @param isHorizontal specifies whether the layout should be horizontal or vertical
+	 * @param margin the margin
+	 */
 	public StripLayout(boolean isHorizontal, Margin margin) {
 		this.isHorizontal = isHorizontal;
 		this.margin = margin;
@@ -48,6 +78,14 @@ public final class StripLayout extends Layout {
 		return true;
 	}
 	
+	/**
+	 * Layout or size.
+	 *
+	 * @param composite the control to layout
+	 * @param isLayout specifies whether the layout should be applied or just sized.
+	 * @param flushCache whether to flush the cache
+	 * @return the size of the layed out control
+	 */
 	private Point layoutOrSize(Composite composite, boolean isLayout, boolean flushCache) {
 
 		Rectangle clientArea = getCroppedClientArea(composite, isLayout);
@@ -142,6 +180,13 @@ public final class StripLayout extends Layout {
 		return new Point(x, y);
 	}
 	
+	/**
+	 * Gets the cropped client area.
+	 *
+	 * @param composite the composite to investigate
+	 * @param isLayout specifies whether the layout should be applied or just sized.
+	 * @return the cropped client area
+	 */
 	private Rectangle getCroppedClientArea(Composite composite, boolean isLayout) {
 		if (isLayout) {
 			Rectangle clientArea = composite.getClientArea();
