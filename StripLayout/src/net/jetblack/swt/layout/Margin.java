@@ -50,4 +50,22 @@ public class Margin {
 	public Margin(int width, int height) {
 		this(width, height, width, height);
 	}
+	
+	/**
+	 * Gets the total width of the left margin and the right margin.
+	 * 
+	 * @return the left margin plus the right margin
+	 */
+	public int getWidth() {
+		return left + right;
+	}
+	
+	/**
+	 * Gets the total height of the top margin and the bottom margin.
+	 * 
+	 * @return the top margin plus the bottom margin
+	 */
+	public int getHeight() {
+		return top + bottom;
+	}
 }

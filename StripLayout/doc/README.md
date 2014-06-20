@@ -12,11 +12,10 @@ We can break down this layout by looking at each part, from the top down.
 
 		Display display = new Display();
 		Shell shell = new Shell(display);
-		shell.setLayout(new StripLayout(false, new Margin(3)));
+		shell.setLayout(new StripLayout(false));
 
 We make the shell, then assign a `StripLayout` with `isHorizontal` set to `false`. This
-is going to layout its children vertically. We give it a margin of `3` on all sides so
-the controls aren't tight to the edge of the window.
+is going to layout its children vertically. 
 
 ![Example Layout](StripDiagnostic-2.png)
 
@@ -24,27 +23,30 @@ Now we can make each of the rows.
 
 		// Row 1
 		Composite sendRow = new Composite(shell, SWT.NO_TRIM);
-		sendRow.setLayout(new StripLayout(true, new Margin(0, 0, 0, 3)));
-		sendRow.setLayoutData(new StripData(true, false));
+		sendRow.setLayout(new StripLayout(true));
+		sendRow.setLayoutData(new StripData(true, false, new Margin(3, 3, 3, 0)));
 		
 		// Row 2
 		Text outputText = new Text(shell, SWT.MULTI | SWT.BORDER);
-		outputText.setLayoutData(new StripData(true, true));
+		outputText.setLayoutData(new StripData(true, true, new Margin(3, 3, 3, 3)));
 		
 		// Row 3
 		Composite statusRow = new Composite(shell, SWT.NO_TRIM);
-		statusRow.setLayout(new StripLayout(true, new Margin(0, 3, 0, 3)));
-		statusRow.setLayoutData(new StripData(true, false));
+		statusRow.setLayout(new StripLayout(true));
+		statusRow.setLayoutData(new StripData(true, false, new Margin(3, 0, 3, 3)));
 
 The first row is a `Composite` as we want it to contain a number of child controls. 
 It should have a fixed height, but fill in the horizontal direction,
 so the `StripData` gets `true` for `fillHorizontal` and `false` for `fillVertical`.
-The first row gets a bottom margin of 3 to provide a gap to the control below.
+The first row gets a bottom margin of 3 on the left, top, and bottom, to distance
+itself from the shell..
 
-The second row should fill the remaining area, to we set both fills to `true`.
+The second row should fill the remaining area, to we set both fills to `true`. It
+has a margin on all sides to distance itself from the shell to the left and right,
+and the controls above and below.
 
-The third row is like the first, with some margin to provide appropriate distance
-from the control above. 
+The third row is like the first, with margin on the left, right, and bottom, to provide
+a gap between the shell and itself.
 
 This gives us the following.
 
@@ -87,11 +89,11 @@ The following program reproduces the screenshot above.
 	public static void main(String[] args) {
 		Display display = new Display();
 		Shell shell = new Shell(display);
-		shell.setLayout(new StripLayout(false, new Margin(3)));
+		shell.setLayout(new StripLayout(false));
 		
 		Composite sendRow = new Composite(shell, SWT.NO_TRIM);
-		sendRow.setLayout(new StripLayout(true, new Margin(0, 0, 0, 3)));
-		sendRow.setLayoutData(new StripData(true, false));
+		sendRow.setLayout(new StripLayout(true));
+		sendRow.setLayoutData(new StripData(true, false, new Margin(3, 3, 3, 0)));
 		
 		Button sendButton = new Button(sendRow, SWT.DEFAULT);
 		sendButton.setLayoutData(new StripData(false, false));
@@ -105,11 +107,11 @@ The following program reproduces the screenshot above.
 		lineEnding.select(0);
 		
 		Text outputText = new Text(shell, SWT.MULTI | SWT.BORDER);
-		outputText.setLayoutData(new StripData(true, true));
+		outputText.setLayoutData(new StripData(true, true, new Margin(3, 3, 3, 3)));
 		
 		Composite statusRow = new Composite(shell, SWT.NO_TRIM);
-		statusRow.setLayout(new StripLayout(true, new Margin(0, 3, 0, 3)));
-		statusRow.setLayoutData(new StripData(true, false));
+		statusRow.setLayout(new StripLayout(true));
+		statusRow.setLayoutData(new StripData(true, false, new Margin(3, 0, 3, 3)));
 
 		Text leftStatus = new Text(statusRow, SWT.BORDER);
 		leftStatus.setLayoutData(new StripData(true,false, new Margin(0, 0, 2, 0)));
@@ -126,6 +128,4 @@ The following program reproduces the screenshot above.
 		display.dispose();
 	}
 
-A feature that can be seen in the above code that has not yet been explained is "margin".
-The layout data for each control may have a left, top, right, and bottom margin which will
-be applied when laying out the control.
+Rob

@@ -15,13 +15,14 @@ import org.eclipse.swt.widgets.Text;
 public class App {
 
 	public static void main(String[] args) {
+
 		Display display = new Display();
 		Shell shell = new Shell(display);
-		shell.setLayout(new StripLayout(false, new Margin(3)));
+		shell.setLayout(new StripLayout(false));
 		
 		Composite sendRow = new Composite(shell, SWT.NO_TRIM);
 		sendRow.setLayout(new StripLayout(true));
-		sendRow.setLayoutData(new StripData(true, false));
+		sendRow.setLayoutData(new StripData(true, false, new Margin(3, 3, 3, 0)));
 		
 		Button sendButton = new Button(sendRow, SWT.DEFAULT);
 		sendButton.setLayoutData(new StripData(false, false));
@@ -35,11 +36,11 @@ public class App {
 		lineEnding.select(0);
 		
 		Text outputText = new Text(shell, SWT.MULTI | SWT.BORDER);
-		outputText.setLayoutData(new StripData(true, true, new Margin(0, 3, 0, 3)));
+		outputText.setLayoutData(new StripData(true, true, new Margin(3, 3, 3, 3)));
 		
 		Composite statusRow = new Composite(shell, SWT.NO_TRIM);
-		statusRow.setLayout(new StripLayout(true, new Margin(0, 3, 0, 3)));
-		statusRow.setLayoutData(new StripData(true, false));
+		statusRow.setLayout(new StripLayout(true));
+		statusRow.setLayoutData(new StripData(true, false, new Margin(3, 0, 3, 3)));
 
 		Text leftStatus = new Text(statusRow, SWT.BORDER);
 		leftStatus.setLayoutData(new StripData(true,false, new Margin(0, 0, 2, 0)));

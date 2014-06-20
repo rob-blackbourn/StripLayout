@@ -15,9 +15,6 @@ public final class StripLayout extends Layout {
 
 	/** Indicates whether the layout should be horizontal or vertical. */
 	public final boolean isHorizontal;
-	
-	/** The margin. */
-	public final Margin margin;
 
 	/**
 	 * Instantiates a new strip layout.
@@ -29,35 +26,10 @@ public final class StripLayout extends Layout {
 	/**
 	 * Instantiates a new strip layout.
 	 *
-	 * @param isHorizontal the is horizontal
+	 * @param isHorizontal specifies whether the layout should be horizontal or vertical
 	 */
 	public StripLayout(boolean isHorizontal) {
-		this(isHorizontal, 0, 0, 0, 0);
-	}
-	
-	/**
-	 * Instantiates a new strip layout.
-	 *
-	 * @param isHorizontal specifies whether the layout should be horizontal or vertical
-	 * @param marginLeft the left margin
-	 * @param marginTop the top margin
-	 * @param marginRight the right margin
-	 * @param marginBottom the bottom margin
-	 */
-	public StripLayout(boolean isHorizontal, int marginLeft, int marginTop, int marginRight, int marginBottom)
-	{
-		this(isHorizontal, new Margin(marginLeft, marginTop, marginRight, marginBottom));
-	}
-	
-	/**
-	 * Instantiates a new strip layout.
-	 *
-	 * @param isHorizontal specifies whether the layout should be horizontal or vertical
-	 * @param margin the margin
-	 */
-	public StripLayout(boolean isHorizontal, Margin margin) {
 		this.isHorizontal = isHorizontal;
-		this.margin = margin;
 	}
 	
 	@Override
@@ -108,7 +80,8 @@ public final class StripLayout extends Layout {
 		}
 
 		if (count == 0) {
-			return new Point (margin.left + margin.right, margin.top + margin.bottom);
+			//return new Point (margin.left + margin.right, margin.top + margin.bottom);
+			return new Point (0, 0);
 		}
 		
 		int fillChildCount = 0;
@@ -126,8 +99,8 @@ public final class StripLayout extends Layout {
 
 			Point size = child.computeSize(data.size.width, data.size.height, flushCache);
 			
-			int width = size.x + data.margin.left + data.margin.right;
-			int height = size.y + data.margin.top + data.margin.bottom;
+			int width = size.x + data.margin.getWidth();
+			int height = size.y + data.margin.getHeight();
 			
 			if (isHorizontal) {
 				maxChild = Math.max(maxChild, height);
@@ -153,14 +126,14 @@ public final class StripLayout extends Layout {
 			int childWidth, childHeight, childX, childY;
 			if (isHorizontal) {
 				childWidth = data.fillWidth ? size.x + childFill : size.x;
-				childHeight = data.fillHeight ? (isLayout ? clientArea.height : maxChild) : size.y;
-				childX = x + data.margin.left;
-				childY = data.fillHeight ? y : y + (maxChild - size.y) / 2;
+				childHeight = data.fillHeight ? (isLayout ? clientArea.height - data.margin.getHeight() : maxChild) : size.y;
+				childX = data.margin.left + x;
+				childY = data.margin.top + (data.fillHeight ? y : y + (maxChild - size.y) / 2);
 			} else {
 				childHeight = data.fillHeight ? size.y + childFill : size.y;
-				childWidth = data.fillWidth ? (isLayout ? clientArea.width : maxChild) : size.x;
-				childX = data.fillWidth ? x : x + (maxChild - size.x) / 2;
-				childY = y + data.margin.top;
+				childWidth = data.fillWidth ? (isLayout ? clientArea.width - data.margin.getWidth() : maxChild) : size.x;
+				childX = data.margin.left + (data.fillWidth ? x : x + (maxChild - size.x) / 2);
+				childY = data.margin.top + y;
 			}
 			
 			if (isLayout) {
@@ -168,14 +141,14 @@ public final class StripLayout extends Layout {
 			}
 			
 			if (isHorizontal) {
-				x += childWidth + data.margin.left + data.margin.right;
+				x += childWidth + data.margin.getWidth();
 			} else {
-				y += childHeight + data.margin.top + data.margin.bottom;
+				y += childHeight + data.margin.getHeight();
 			}
 		}
 		
-		x += maxChild + margin.right;
-		y += maxChild + margin.bottom;
+		x += maxChild;
+		y += maxChild;
 		
 		return new Point(x, y);
 	}
@@ -189,8 +162,9 @@ public final class StripLayout extends Layout {
 	 */
 	private Rectangle getCroppedClientArea(Composite composite, boolean isLayout) {
 		if (isLayout) {
-			Rectangle clientArea = composite.getClientArea();
-			return new Rectangle(clientArea.x + margin.left, clientArea.y + margin.top, clientArea.width - (margin.left + margin.right), clientArea.height - (margin.top + margin.bottom));
+			//Rectangle clientArea = composite.getClientArea();
+			//return new Rectangle(clientArea.x + margin.left, clientArea.y + margin.top, clientArea.width - (margin.left + margin.right), clientArea.height - (margin.top + margin.bottom));
+			return composite.getClientArea();
 		} else {
 			return new Rectangle(0, 0, 0, 0);
 		}
